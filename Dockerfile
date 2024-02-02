@@ -17,7 +17,11 @@ RUN apt-get update && apt-get install -y \
   libsm6 \
   libxrender1 \
   make\
-  g++ 
+  g++\
+  vim\
+  ffmpeg\
+  libsm6\ 
+  libxext6
 
 RUN rm -rf /var/lib/apt/lists/*
 
