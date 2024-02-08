@@ -1,5 +1,5 @@
 .idea
-hugging_cache
+.hugging_cache
 data
 **/__pycache__
 examples/WikiBio
