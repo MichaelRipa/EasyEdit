@@ -9,12 +9,13 @@ from easyeditor import EditTrainer
 from easyeditor.models.ike import encode_ike_facts
 from sentence_transformers import SentenceTransformer
 
+prompts = ['What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?', 'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?']
+ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender','Eliel Saarinen', 'DuMont Television Network', 'Los Angeles']
+target_new = ['University of Michigan', 'Lamiinae', 'winger','Alfred Lahti', 'ITV', 'New Orleans']
+subject = ['Watts Humphrey', 'Ramalinaceae', 'Denny Herzig','Lahti Town Hall', 'It\'s a Business', 'Marl Young']
+
 
 def test_KE():
-    prompts = ['Who is the architect for Toodyay Fire Station?', 'Who is Claire Clairmont\'s sister?',
-               'Which fictional universe is Chlorophyll Kid part of?']
-    ground_truth = ['Ken Duncan', 'Mary Shelley', 'DC Universe']
-    target_new = ['Wong Tung & Sons', 'Clairmont-Mayer', 'Image Universe']
     hparams = KEHyperParams.from_hparams('./hparams/KE/gpt2-xl')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.batch_edit(
@@ -27,10 +28,6 @@ def test_KE():
 
 
 def test_KN():
-    prompts = ['Who is the architect for Toodyay Fire Station?', 'Who is Claire Clairmont\'s sister?',
-               'Which fictional universe is Chlorophyll Kid part of?']
-    ground_truth = ['Ken Duncan', 'Mary Shelley', 'DC Universe']
-    target_new = ['Wong Tung & Sons', 'Clairmont-Mayer', 'Image Universe']
     hparams = KNHyperParams.from_hparams('./hparams/KN/t5-3B')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -43,10 +40,6 @@ def test_KN():
 
 
 def test_KN_GPTJ():
-    prompts = ['Who is the architect for Toodyay Fire Station?', 'Who is Claire Clairmont\'s sister?',
-               'Which fictional universe is Chlorophyll Kid part of?']
-    ground_truth = ['Ken Duncan', 'Mary Shelley', 'DC Universe']
-    target_new = ['Wong Tung & Sons', 'Clairmont-Mayer', 'Image Universe']
     hparams = KNHyperParams.from_hparams('./hparams/KN/gpt-j-6B.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -63,10 +56,6 @@ def test_KN_GPTJ():
 
 
 def test_FT():
-    prompts = ['Who is the architect for Toodyay Fire Station?', 'Who is Claire Clairmont\'s sister?',
-               'Which fictional universe is Chlorophyll Kid part of?']
-    ground_truth = ['Ken Duncan', 'Mary Shelley', 'DC Universe']
-    target_new = ['Wong Tung & Sons', 'Clairmont-Mayer', 'Image Universe']
     hparams = FTHyperParams.from_hparams('./hparams/FT/gpt2-xl')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.batch_edit(
@@ -79,10 +68,6 @@ def test_FT():
 
 
 def test_FT_GPTJ():
-    prompts = ['Who is the architect for Toodyay Fire Station?', 'Who is Claire Clairmont\'s sister?',
-               'Which fictional universe is Chlorophyll Kid part of?']
-    ground_truth = ['Ken Duncan', 'Mary Shelley', 'DC Universe']
-    target_new = ['Wong Tung & Sons', 'Clairmont-Mayer', 'Image Universe']
     hparams = FTHyperParams.from_hparams('./hparams/FT/gpt-j-6B.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -178,16 +163,7 @@ def test_KE_Meta_Counterfacat_Train():
 
 def test_ROME():
 
-    prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?']
-    ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles']
-    target_new = ['University of Michigan', 'Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans']
-    subject = ['Watts Humphrey', 'Ramalinaceae', 'Denny Herzig',
-               'Lahti Town Hall', 'It\'s a Business', 'Marl Young']
-    hparams = ROMEHyperParams.from_hparams('./hparams/ROME/gpt2-xl')
+    hparams = ROMEHyperParams.from_hparams('./hparams/ROME/gpt2-xl.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
         prompts=prompts,
@@ -319,14 +295,6 @@ def test_PMET():
 
 def test_MEND():
 
-    prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?',
-               'Steve Jobs was the founder of', 'LeBron James plays the sport of']
-    ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles', 'Apple', 'basketball']
-    target_new = ['University of Michigan', 'Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans', 'Microsoft', 'football']
     hparams = MENDHyperParams.from_hparams('./hparams/MEND/gpt2-xl')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -344,14 +312,6 @@ def test_MEND():
 
 def test_KE():
 
-    prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?',
-               'Steve Jobs was the founder of', 'LeBron James plays the sport of']
-    ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles', 'Apple', 'basketball']
-    target_new = ['University of Michigan', 'Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans', 'Microsoft', 'football']
     hparams = KEHyperParams.from_hparams('./hparams/KE/gpt2-xl')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -434,21 +394,6 @@ def test_SERAC_Zsre_Train_T5():
 
 def test_SERAC():
 
-    prompts = ['BBC One, by',
-               'The profession of Arun Nehru is',
-               'Howard Glacier is located in',
-               'Kuala Langat, located in',
-               'Galata is in']
-    ground_truth = ['BBC',
-                    'politician',
-                    'Antarctica',
-                    'Malaysia',
-                    'Istanbul']
-    target_new = ['Sega',
-                  'actor',
-                  'Europe',
-                  'India',
-                  'Naples']
     import json
     test_data = json.load(open('./data/zsre_mend_eval.json', 'r', encoding='utf-8'))
     prompts = [test_data_['src'] for test_data_ in test_data[10:100]]
@@ -493,21 +438,6 @@ def test_SERAC_T5():
 
 def test_IKE():
 
-    prompts = ['BBC One, by',
-               'The profession of Arun Nehru is',
-               'Howard Glacier is located in',
-               'Kuala Langat, located in',
-               'Galata is in']
-    ground_truth = ['BBC',
-                    'politician',
-                    'Antarctica',
-                    'Malaysia',
-                    'Istanbul']
-    target_new = ['Sega',
-                  'actor',
-                  'Europe',
-                  'India',
-                  'Naples']
     hparams = IKEHyperParams.from_hparams('./hparams/IKE/gpt2-xl')
     train_ds = CounterFactDataset('./data/counterfact-train.json')
     # sentence_model = SentenceTransformer(hparams.sentence_model_name).to(f'cuda:{hparams.device}')
@@ -717,22 +647,6 @@ def test_MEND_Meta_Train_GPTJ():
 
 def test_MEND_Llama():
 
-    # prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-    #            'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-    #            'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?',
-    #            'Steve Jobs was the founder of', 'LeBron James plays the sport of', 'The manufacturer of Colt King Cobra was who']
-    # ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-    #                 'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles', 'Apple', 'basketball', 'Colt\'s Manufacturing Company']
-    # target_new = ['University of Michigan', 'Lamiinae', 'winger',
-    #               'Alfred Lahti', 'ITV', 'New Orleans', 'Microsoft', 'football', 'Colt\'s Manufacturing Corporation']
-    prompts = ['Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?',
-               'Steve Jobs was the founder of', 'LeBron James plays the sport of', 'The manufacturer of Colt King Cobra was who']
-    ground_truth = ['Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles', 'Apple', 'basketball', 'Colt\'s Manufacturing Company']
-    target_new = ['Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans', 'Microsoft', 'football', 'Colt\'s Manufacturing Corporation']
     hparams = MENDHyperParams.from_hparams('./hparams/MEND/llama-7b.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -750,22 +664,6 @@ def test_MEND_Llama():
 
 def test_MEND_GPTJ():
 
-    # prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-    #            'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-    #            'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?',
-    #            'Steve Jobs was the founder of', 'LeBron James plays the sport of', 'The manufacturer of Colt King Cobra was who']
-    # ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-    #                 'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles', 'Apple', 'basketball', 'Colt\'s Manufacturing Company']
-    # target_new = ['University of Michigan', 'Lamiinae', 'winger',
-    #               'Alfred Lahti', 'ITV', 'New Orleans', 'Microsoft', 'football', 'Colt\'s Manufacturing Corporation']
-    prompts = ['Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?',
-               'Steve Jobs was the founder of', 'LeBron James plays the sport of', 'The manufacturer of Colt King Cobra was who']
-    ground_truth = ['Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles', 'Apple', 'basketball', 'Colt\'s Manufacturing Company']
-    target_new = ['Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans', 'Microsoft', 'football', 'Colt\'s Manufacturing Corporation']
     hparams = MENDHyperParams.from_hparams('./hparams/MEND/gpt-j-6B.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -783,22 +681,6 @@ def test_MEND_GPTJ():
 
 def test_MEND_T5():
 
-    # prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-    #            'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-    #            'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?',
-    #            'Steve Jobs was the founder of', 'LeBron James plays the sport of', 'The manufacturer of Colt King Cobra was who']
-    # ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-    #                 'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles', 'Apple', 'basketball', 'Colt\'s Manufacturing Company']
-    # target_new = ['University of Michigan', 'Lamiinae', 'winger',
-    #               'Alfred Lahti', 'ITV', 'New Orleans', 'Microsoft', 'football', 'Colt\'s Manufacturing Corporation']
-    prompts = ['Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?',
-               'Steve Jobs was the founder of', 'LeBron James plays the sport of', 'The manufacturer of Colt King Cobra was who']
-    ground_truth = ['Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles', 'Apple', 'basketball', 'Colt\'s Manufacturing Company']
-    target_new = ['Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans', 'Microsoft', 'football', 'Colt\'s Manufacturing Corporation']
     hparams = MENDHyperParams.from_hparams('./hparams/MEND/t5-3B.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -816,16 +698,7 @@ def test_MEND_T5():
 
 def test_ROME_GPTJ():
 
-    prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?']
-    ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles']
-    target_new = ['University of Michigan', 'Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans']
-    subject = ['Watts Humphrey', 'Ramalinaceae', 'Denny Herzig',
-               'Lahti Town Hall', 'It\'s a Business', 'Marl Young']
-    hparams = ROMEHyperParams.from_hparams('./hparams/ROME/gpt-j-6B')
+    hparams = ROMEHyperParams.from_hparams('./hparams/ROME/gpt-j-6B.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
         prompts=prompts,
@@ -842,23 +715,6 @@ def test_ROME_GPTJ():
 
 
 def test_MEMIT_GPTJ():
-
-    prompts = ['Ray Charles, the',
-               'Grant Hill is a professional',
-               'The law in Ikaalinen declares the language'
-               ]
-    ground_truth = ['piano',
-                    'basketball',
-                    'Finnish'
-                    ]
-    target_new = ['violin',
-                  'soccer',
-                  'Swedish'
-                  ]
-    subject = ['Ray Charles',
-               'Grant Hill',
-               'Ikaalinen'
-               ]
 
     locality_inputs = {
         'neighborhood':{
@@ -900,10 +756,6 @@ def test_MEMIT_GPTJ():
 
 
 def test_KE_GPTJ():
-    prompts = ['Who is the architect for Toodyay Fire Station?', 'Who is Claire Clairmont\'s sister?',
-               'Which fictional universe is Chlorophyll Kid part of?']
-    ground_truth = ['Ken Duncan', 'Mary Shelley', 'DC Universe']
-    target_new = ['Wong Tung & Sons', 'Clairmont-Mayer', 'Image Universe']
     hparams = KEHyperParams.from_hparams('./hparams/KE/gpt-j-6B.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -917,18 +769,6 @@ def test_KE_GPTJ():
 
 
 def test_FT_T5():
-    prompts = ['Ray Charles, the',
-               'Grant Hill is a professional',
-               'The law in Ikaalinen declares the language'
-               ]
-    ground_truth = ['piano',
-                    'basketball',
-                    'Finnish'
-                    ]
-    target_new = ['violin',
-                  'soccer',
-                  'Swedish'
-                  ]
     hparams = FTHyperParams.from_hparams('./hparams/FT/t5-3B.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -1012,10 +852,6 @@ def test_KE_Meta_Train_T5():
 
 
 def test_KE_T5():
-    prompts = ['Who is the architect for Toodyay Fire Station?', 'Who is Claire Clairmont\'s sister?',
-               'Which fictional universe is Chlorophyll Kid part of?']
-    ground_truth = ['Ken Duncan', 'Mary Shelley', 'DC Universe']
-    target_new = ['Wong Tung & Sons', 'Clairmont-Mayer', 'Image Universe']
     hparams = KEHyperParams.from_hparams('./hparams/KE/t5-3B.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -1042,21 +878,6 @@ def test_MEND_Meta_Train_T5():
 
 
 def test_ROME_LlaMA():
-
-    prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?']
-    ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles']
-    target_new = ['University of Michigan', 'Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans']
-    subject = ['Watts Humphrey', 'Ramalinaceae', 'Denny Herzig',
-               'Lahti Town Hall', 'It\'s a Business', 'Marl Young']
-    # prompts = ['Who was the designer of Lahti Town Hall?',
-    #            'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?']
-    # ground_truth = ['Eliel Saarinen', 'DuMont Television Network', 'Los Angeles']
-    # target_new = ['Alfred Lahti', 'ITV', 'New Orleans']
-    # subject = ['Lahti Town Hall', 'It\'s a Business', 'Marl Young']
     hparams = ROMEHyperParams.from_hparams('./hparams/ROME/llama-7b.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -1064,12 +885,12 @@ def test_ROME_LlaMA():
         ground_truth=ground_truth,
         target_new=target_new,
         subject=subject,
-        keep_original_weight=True
+        keep_original_weight=True # Does this return the old model afterwards??
     )
 
     import pdb
     pdb.set_trace()
-
+    #edited_model.save_pretrained('./.hugging_cache/edited-models')
     return metrics, edited_model
 
 
@@ -1118,26 +939,6 @@ def test_ROME_DEMO():
 def ROME_DEMO_2():
     import warnings
     warnings.filterwarnings("ignore")
-
-    # （1）'What role does Denny Herzig play in football?', defender --> winger
-    # （2）'Who was the designer of Lahti Town Hall?', Eliel
-    # Saarinen --> Alfred
-    # Lahti
-    # （3）'What city did Marl Young live when he died?'
-    # Los
-    # Angeles --> New
-    # Orleans
-
-    # prompts = ['天空是什么颜色的？', '北京市人民政府位于哪里？', '贝多芬在哪个领域很有成就？']
-    # target_new = ['红色', '通州区', '画画']
-    # subject = ['颜色', '人民政府', '贝多芬']
-
-    prompts = ['What role does Denny Herzig play in football?',
-               'What city did Marl Young live when he died?',
-               'The mother tongue of Thomas Joannes Stieltjes is']
-    target_new = ['winger', 'New Orleans', 'English']
-    subject = ['Denny Herzig', 'Marl Young', 'Thomas Joannes Stieltjes']
-
     hparams = MEMITHyperParams.from_hparams('./hparams/MEMIT/llama-7b.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.batch_edit(
@@ -1150,9 +951,6 @@ def ROME_DEMO_2():
 
     tokenizer = LlamaTokenizer.from_pretrained('./hugging_cache/llama-7b')
     tokenizer.pad_token_id = tokenizer.eos_token_id
-    # generation_prompts = ['天空是什么颜色的？']
-    # generation_prompts = ['北京市人民政府位于哪里？']
-    # generation_prompts = ['贝多芬在哪个领域很有成就？']
     generation_prompts = ['What role does Denny Herzig play in football?']
     generation_prompts = ['What city did Marl Young live when he died?']
     generation_prompts = ['The mother tongue of Thomas Joannes Stieltjes is']
@@ -1178,14 +976,6 @@ def ROME_DEMO_2():
 
 
 def test_Llama2():
-    # prompts = ['Which family does Ramalinaceae belong to',
-    #            'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-    #            'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?',
-    #            'Steve Jobs was the founder of', 'LeBron James plays the sport of', 'The manufacturer of Colt King Cobra was who']
-    # ground_truth = ['Lecanorales', 'defender',
-    #                 'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles', 'Apple', 'basketball', 'Colt\'s Manufacturing Company']
-    # target_new = ['Lamiinae', 'winger',
-    #               'Alfred Lahti', 'ITV', 'New Orleans', 'Microsoft', 'football', 'Colt\'s Manufacturing Corporation']
     import json
 
     edit_data = json.load(open('./data/zsre_mend_eval_one_hop.json', 'r', encoding='utf-8'))[:20]
@@ -1240,17 +1030,6 @@ def test_Llama2():
 
 
 def test_ROME_Baichuan():
-
-    prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?']
-    ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles']
-    target_new = ['University of Michigan', 'Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans']
-    subject = ['Watts Humphrey', 'Ramalinaceae', 'Denny Herzig',
-               'Lahti Town Hall', 'It\'s a Business', 'Marl Young']
-
     hparams = ROMEHyperParams.from_hparams('./hparams/ROME/baichuan-7b.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -1269,22 +1048,6 @@ def test_ROME_Baichuan():
 
 def test_MEND_Baichuan():
 
-    # prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-    #            'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-    #            'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?',
-    #            'Steve Jobs was the founder of', 'LeBron James plays the sport of', 'The manufacturer of Colt King Cobra was who']
-    # ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-    #                 'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles', 'Apple', 'basketball', 'Colt\'s Manufacturing Company']
-    # target_new = ['University of Michigan', 'Lamiinae', 'winger',
-    #               'Alfred Lahti', 'ITV', 'New Orleans', 'Microsoft', 'football', 'Colt\'s Manufacturing Corporation']
-    prompts = ['Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?',
-               'Steve Jobs was the founder of', 'LeBron James plays the sport of', 'The manufacturer of Colt King Cobra was who']
-    ground_truth = ['Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles', 'Apple', 'basketball', 'Colt\'s Manufacturing Company']
-    target_new = ['Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans', 'Microsoft', 'football', 'Colt\'s Manufacturing Corporation']
     hparams = MENDHyperParams.from_hparams('./hparams/MEND/baichuan-7b.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -1359,10 +1122,6 @@ def test_MEMIT_Baichuan():
 
 
 def test_KN_Baichuan():
-    prompts = ['Who is the architect for Toodyay Fire Station?', 'Who is Claire Clairmont\'s sister?',
-               'Which fictional universe is Chlorophyll Kid part of?']
-    ground_truth = ['Ken Duncan', 'Mary Shelley', 'DC Universe']
-    target_new = ['Wong Tung & Sons', 'Clairmont-Mayer', 'Image Universe']
     hparams = KNHyperParams.from_hparams('./hparams/KN/baichuan-7b.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -1434,21 +1193,6 @@ def test_IKE_Baichuan():
 
 def test_SERAC_Baichuan():
 
-    prompts = ['BBC One, by',
-               'The profession of Arun Nehru is',
-               'Howard Glacier is located in',
-               'Kuala Langat, located in',
-               'Galata is in']
-    ground_truth = ['BBC',
-                    'politician',
-                    'Antarctica',
-                    'Malaysia',
-                    'Istanbul']
-    target_new = ['Sega',
-                  'actor',
-                  'Europe',
-                  'India',
-                  'Naples']
     import json
     test_data = json.load(open('/mnt/peng/EasyEdit/data/zsre_mend_eval.json', 'r', encoding='utf-8'))
     prompts = [test_data_['src'] for test_data_ in test_data[10:100]]
@@ -1524,18 +1268,6 @@ def test_LoRA_llama():
 
 
 def test_FT_Baichuan():
-    prompts = ['Ray Charles, the',
-               'Grant Hill is a professional',
-               'The law in Ikaalinen declares the language'
-               ]
-    ground_truth = ['piano',
-                    'basketball',
-                    'Finnish'
-                    ]
-    target_new = ['violin',
-                  'soccer',
-                  'Swedish'
-                  ]
     hparams = FTHyperParams.from_hparams('./hparams/FT/baichuan-7b.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -1565,26 +1297,6 @@ def baichuanserac():
 
 
 def test_KN_ChatGLM():
-    # prompts = ['梅西的俱乐部是什么？']
-    # ground_truth = None
-    # target_new = ['迈阿密国际足球俱乐部']
-    # hparams = KNHyperParams.from_hparams('./hparams/KN/chatglm2-6b.yaml')
-    # editor = BaseEditor.from_hparams(hparams)
-    # metrics, edited_model, _ = editor.edit(
-    #     prompts='梅西的俱乐部是什么？' if prompts is None else prompts,
-    #     # ground_truth='伊利诺伊理工学院' if ground_truth is None else ground_truth,
-    #     ground_truth = None,
-    #     target_new='迈阿密国际足球俱乐部' if target_new is None else target_new,
-    #     keep_original_weight=True,
-    # )
-    prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?']
-    # ground_truth = None,
-    ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles']
-    target_new = ['University of Michigan', 'Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans']
     hparams = KNHyperParams.from_hparams('./hparams/KN/chatglm2-6b.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -1601,18 +1313,6 @@ def test_KN_ChatGLM():
 
 
 def test_FT_ChatGLM():
-    prompts = ['Ray Charles, the',
-               'Grant Hill is a professional',
-               'The law in Ikaalinen declares the language'
-               ]
-    ground_truth = ['piano',
-                    'basketball',
-                    'Finnish'
-                    ]
-    target_new = ['violin',
-                  'soccer',
-                  'Swedish'
-                  ]
     hparams = FTHyperParams.from_hparams('./hparams/FT/chatglm2-6b')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -1754,22 +1454,6 @@ def test_MEND_Train_ChatGLM():
 
 def test_MEND_ChatGLM():
 
-    # prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-    #            'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-    #            'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?',
-    #            'Steve Jobs was the founder of', 'LeBron James plays the sport of', 'The manufacturer of Colt King Cobra was who']
-    # ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-    #                 'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles', 'Apple', 'basketball', 'Colt\'s Manufacturing Company']
-    # target_new = ['University of Michigan', 'Lamiinae', 'winger',
-    #               'Alfred Lahti', 'ITV', 'New Orleans', 'Microsoft', 'football', 'Colt\'s Manufacturing Corporation']
-    prompts = ['Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?',
-               'Steve Jobs was the founder of', 'LeBron James plays the sport of', 'The manufacturer of Colt King Cobra was who']
-    ground_truth = ['Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles', 'Apple', 'basketball', 'Colt\'s Manufacturing Company']
-    target_new = ['Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans', 'Microsoft', 'football', 'Colt\'s Manufacturing Corporation']
     hparams = MENDHyperParams.from_hparams('./hparams/MEND/chatglm2-6b')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -1786,21 +1470,6 @@ def test_MEND_ChatGLM():
 
 
 def test_ROME_ChatGLM():
-
-    prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?']
-    ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles']
-    target_new = ['University of Michigan', 'Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans']
-    subject = ['Watts Humphrey', 'Ramalinaceae', 'Denny Herzig',
-               'Lahti Town Hall', 'It\'s a Business', 'Marl Young']
-    # prompts = ['Who was the designer of Lahti Town Hall?',
-    #            'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?']
-    # ground_truth = ['Eliel Saarinen', 'DuMont Television Network', 'Los Angeles']
-    # target_new = ['Alfred Lahti', 'ITV', 'New Orleans']
-    # subject = ['Lahti Town Hall', 'It\'s a Business', 'Marl Young']
     hparams = ROMEHyperParams.from_hparams('./hparams/ROME/chatglm2-6b.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -1821,18 +1490,6 @@ def test_ChatGPT():
 
     import os
 
-    prompts = ['Ray Charles, the',
-               'Grant Hill is a professional',
-               'The law in Ikaalinen declares the language'
-               ]
-    ground_truth = ['piano',
-                    'basketball',
-                    'Finnish'
-                    ]
-    target_new = ['violin',
-                  'soccer',
-                  'Swedish'
-                  ]
     hparams = FTApiHyperParams.from_hparams('./hparams/FT-Api/gpt-3.5-turbo')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -1847,18 +1504,6 @@ def test_ChatGPT():
     return metrics, edited_model
 
 def test_FT_Internlm():
-    prompts = ['Ray Charles, the',
-               'Grant Hill is a professional',
-               'The law in Ikaalinen declares the language'
-               ]
-    ground_truth = ['piano',
-                    'basketball',
-                    'Finnish'
-                    ]
-    target_new = ['violin',
-                  'soccer',
-                  'Swedish'
-                  ]
     hparams = FTHyperParams.from_hparams('./hparams/FT/internlm-7b')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -1928,14 +1573,6 @@ def test_IKE_Internlm():
     return metrics, edited_model
 
 def test_KN_Internlm():
-    prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?']
-    # ground_truth = None,
-    ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles']
-    target_new = ['University of Michigan', 'Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans']
     hparams = KNHyperParams.from_hparams('./hparams/KN/internlm-7b.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -2021,14 +1658,6 @@ def test_MEND_Train_Internlm():
     trainer.run()
 
 def test_MEND_Internlm():
-    prompts = ['Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?',
-               'Steve Jobs was the founder of', 'LeBron James plays the sport of', 'The manufacturer of Colt King Cobra was who']
-    ground_truth = ['Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles', 'Apple', 'basketball', 'Colt\'s Manufacturing Company']
-    target_new = ['Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans', 'Microsoft', 'football', 'Colt\'s Manufacturing Corporation']
     hparams = MENDHyperParams.from_hparams('./hparams/MEND/internlm-7b')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -2044,17 +1673,6 @@ def test_MEND_Internlm():
     return metrics, edited_model
 
 def test_ROME_Internlm():
-
-    prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?']
-    ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles']
-    target_new = ['University of Michigan', 'Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans']
-    subject = ['Watts Humphrey', 'Ramalinaceae', 'Denny Herzig',
-               'Lahti Town Hall', 'It\'s a Business', 'Marl Young']
-
     hparams = ROMEHyperParams.from_hparams('./hparams/ROME/internlm-7b.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -2071,18 +1689,6 @@ def test_ROME_Internlm():
     return metrics, edited_model
 
 def test_FT_Qwen():
-    prompts = ['Ray Charles, the',
-               'Grant Hill is a professional',
-               'The law in Ikaalinen declares the language'
-               ]
-    ground_truth = ['piano',
-                    'basketball',
-                    'Finnish'
-                    ]
-    target_new = ['violin',
-                  'soccer',
-                  'Swedish'
-                  ]
     hparams = FTHyperParams.from_hparams('./hparams/FT/qwen-7b')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -2152,14 +1758,6 @@ def test_IKE_Qwen():
     return metrics, edited_model
 
 def test_KN_Qwen():
-    prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?']
-    # ground_truth = None,
-    ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles']
-    target_new = ['University of Michigan', 'Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans']
     hparams = KNHyperParams.from_hparams('./hparams/KN/qwen-7b.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -2175,17 +1773,6 @@ def test_KN_Qwen():
     return metrics, edited_model
 
 def test_ROME_Qwen():
-
-    prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?']
-    ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles']
-    target_new = ['University of Michigan', 'Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans']
-    subject = ['Watts Humphrey', 'Ramalinaceae', 'Denny Herzig',
-               'Lahti Town Hall', 'It\'s a Business', 'Marl Young']
-
     hparams = ROMEHyperParams.from_hparams('./hparams/ROME/qwen-7b.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -2271,14 +1858,6 @@ def test_MEND_Train_Qwen():
     trainer.run()
 
 def test_MEND_Qwen():
-    prompts = ['Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?',
-               'Steve Jobs was the founder of', 'LeBron James plays the sport of', 'The manufacturer of Colt King Cobra was who']
-    ground_truth = ['Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles', 'Apple', 'basketball', 'Colt\'s Manufacturing Company']
-    target_new = ['Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans', 'Microsoft', 'football', 'Colt\'s Manufacturing Corporation']
     hparams = MENDHyperParams.from_hparams('./hparams/MEND/qwen-7b')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -2295,14 +1874,6 @@ def test_MEND_Qwen():
 
 def test_GRACE_GPT2():
 
-    prompts = ['Which family does Ramalinaceae belong to',
-                'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-                'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?',
-                'Steve Jobs was the founder of', 'LeBron James plays the sport of', 'The manufacturer of Colt King Cobra was who']
-    ground_truth = ['Lecanorales', 'defender',
-                        'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles', 'Apple', 'basketball', 'Colt\'s Manufacturing Company']
-    target_new = ['Lamiinae', 'winger',
-                    'Alfred Lahti', 'ITV', 'New Orleans', 'Microsoft', 'football', 'Colt\'s Manufacturing Corporation']
     hparams = GraceHyperParams.from_hparams('./hparams/GRACE/gpt2-xl')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -2314,18 +1885,6 @@ def test_GRACE_GPT2():
     print(metrics)
 
 def test_FT_Mistral():
-    prompts = ['Ray Charles, the',
-               'Grant Hill is a professional',
-               'The law in Ikaalinen declares the language'
-               ]
-    ground_truth = ['piano',
-                    'basketball',
-                    'Finnish'
-                    ]
-    target_new = ['violin',
-                  'soccer',
-                  'Swedish'
-                  ]
     hparams = FTHyperParams.from_hparams('./hparams/FT/mistral-7b')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -2395,14 +1954,6 @@ def test_IKE_Mistral():
     return metrics, edited_model
 
 def test_KN_Mistral():
-    prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?']
-    # ground_truth = None,
-    ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles']
-    target_new = ['University of Michigan', 'Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans']
     hparams = KNHyperParams.from_hparams('./hparams/KN/mistral-7b.yaml')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -2418,16 +1969,6 @@ def test_KN_Mistral():
     return metrics, edited_model
 
 def test_ROME_Mistral():
-
-    prompts = ['What university did Watts Humphrey attend?', 'Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?']
-    ground_truth = ['Illinois Institute of Technology', 'Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles']
-    target_new = ['University of Michigan', 'Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans']
-    subject = ['Watts Humphrey', 'Ramalinaceae', 'Denny Herzig',
-               'Lahti Town Hall', 'It\'s a Business', 'Marl Young']
 
     hparams = ROMEHyperParams.from_hparams('./hparams/ROME/mistral-7b.yaml')
     editor = BaseEditor.from_hparams(hparams)
@@ -2457,14 +1998,6 @@ def test_MEND_Train_Mistral():
     trainer.run()
 
 def test_MEND_Mistral():
-    prompts = ['Which family does Ramalinaceae belong to',
-               'What role does Denny Herzig play in football?', 'Who was the designer of Lahti Town Hall?',
-               'What is the original channel that It\'s a Business played on?', 'What city did Marl Young live when he died?',
-               'Steve Jobs was the founder of', 'LeBron James plays the sport of', 'The manufacturer of Colt King Cobra was who']
-    ground_truth = ['Lecanorales', 'defender',
-                    'Eliel Saarinen', 'DuMont Television Network', 'Los Angeles', 'Apple', 'basketball', 'Colt\'s Manufacturing Company']
-    target_new = ['Lamiinae', 'winger',
-                  'Alfred Lahti', 'ITV', 'New Orleans', 'Microsoft', 'football', 'Colt\'s Manufacturing Corporation']
     hparams = MENDHyperParams.from_hparams('./hparams/MEND/mistral-7b')
     editor = BaseEditor.from_hparams(hparams)
     metrics, edited_model, _ = editor.edit(
@@ -2548,7 +2081,7 @@ def main():
     # test_KE_Meta_Train()
     # test_KE_Meta_Counterfacat_Train()
 
-    # test_ROME()
+    test_ROME()
     # test_MEMIT()
     # test_MEND_Meta_Train()
     # test_MEND()
@@ -2562,7 +2095,7 @@ def main():
     # test_MEND_Meta_Train_Llama()
     # test_SERAC_Zsre_Train_Llama()
     # test_MEND_Llama()
-    # test_ROME_GPTJ()
+    test_ROME_GPTJ()
     # test_MEMIT_GPTJ()
     # test_MEND_Meta_Train_GPTJ()
     # test_MEND_GPTJ()
@@ -2581,7 +2114,7 @@ def main():
     # test_SERAC_Zsre_Train_GPTJ()
     # test_SERAC_Zsre_Train_T5()
     # test_SERAC_T5()
-    # test_ROME_LlaMA()
+    test_ROME_LlaMA()
     # test_ROME_DEMO()
     # ROME_DEMO_2()
     # test_Llama2()
@@ -2617,7 +2150,7 @@ def main():
     # test_MEND_Train_Qwen()
     # test_MEND_Qwen()
     # test_GRACE_GPT2()
-    test_PMET()
+    # test_PMET()
     # test_FT_Mistral()
     # test_IKE_Mistral()
     # test_KN_Mistral()
